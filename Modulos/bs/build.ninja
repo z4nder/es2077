@@ -1,0 +1,23 @@
+rescript = 1
+g_finger := /home/gadsdev/projects/personal/es2077/node_modules/@rescript/react/lib/ocaml/install.stamp
+rule astj
+  command = /home/gadsdev/projects/personal/es2077/node_modules/rescript/linux/bsc.exe  -bs-v 9.1.4 -bs-jsx 3  -absname -bs-ast -o $out $i
+o src/App.ast : astj ../../src/App.res
+rule deps
+  command = /home/gadsdev/projects/personal/es2077/node_modules/rescript/linux/bsb_helper.exe -hash 4cafd805238fc62256ccba0ef714ca4f $in
+  restat = 1
+o src/App.d : deps src/App.ast
+rule mij
+  command = /home/gadsdev/projects/personal/es2077/node_modules/rescript/linux/bsc.exe -I src -I /home/gadsdev/projects/personal/es2077/node_modules/@rescript/react/lib/ocaml   -bs-package-name vite-rescript-starter -bs-package-output es6:$in_d:.bs.js -bs-v $g_finger $i
+  dyndep = 1
+  restat = 1
+o src/App.cmj src/App.cmi ../../src/App.bs.js : mij src/App.ast
+o src/Main.ast : astj ../../src/Main.res
+o src/Main.d : deps src/Main.ast
+o src/Main.cmj src/Main.cmi ../../src/Main.bs.js : mij src/Main.ast
+o src/Overview.ast : astj ../../src/Overview.res
+o src/Overview.d : deps src/Overview.ast
+o src/Overview.cmj src/Overview.cmi ../../src/Overview.bs.js : mij src/Overview.ast
+o src/ProfileTypes.ast : astj ../../src/ProfileTypes.res
+o src/ProfileTypes.d : deps src/ProfileTypes.ast
+o src/ProfileTypes.cmj src/ProfileTypes.cmi ../../src/ProfileTypes.bs.js : mij src/ProfileTypes.ast
